@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NCC.Domain.Contract\NCC.Domain.Contract.csproj" />
+    <ProjectReference Include="..\NCC.Services.Contract\NCC.Services.Contract.csproj" />
+  </ItemGroup>
+
+</Project>

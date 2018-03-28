@@ -1,0 +1,6 @@
+language: csharp
+solution: OnlineStore.sln
+mono: none
+dotnet: 2.1.4
+script:
+ - dotnet restore
