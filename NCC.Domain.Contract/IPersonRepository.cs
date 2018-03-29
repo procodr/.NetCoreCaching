@@ -10,5 +10,6 @@ namespace NCC.Domain.Contract
         void Add(Person person);
         Person Get(int id);
         List<Person> GetAll();
+        bool isCached();
     }
 }

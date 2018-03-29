@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NCC.Domain.Contract;
+using NCC.Infrustructure.Cache.Contract;
+using NCC.Infrustructure.Cache.Implemention;
 using NCC.Infrustructure.Cache.Repository;
 using NCC.Infrustructure.Data.Context;
 using NCC.Infrustructure.Data.Repository;
@@ -25,8 +27,9 @@ namespace NCC.UI.Public
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
                     );
-            services.AddScoped<PersonRepository, PersonRepository>();
+            services.AddTransient<ICacheAdapter, InMemoryCacheAdapter>();
             services.AddScoped<CachedPersonRepository, CachedPersonRepository>();
+            services.AddScoped<PersonRepository, PersonRepository>();
             services.AddScoped<IPersonRepository>(service =>
             {
                 if (bool.Parse(_configuration["UseCache"]))

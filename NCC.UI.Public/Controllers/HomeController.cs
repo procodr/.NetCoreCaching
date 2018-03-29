@@ -16,6 +16,7 @@ namespace NCC.UI.Public.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Status = _personService.GetStatus();
             return View(_personService.GetPersons());
         }
     }

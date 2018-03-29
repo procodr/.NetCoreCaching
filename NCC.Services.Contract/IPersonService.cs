@@ -8,5 +8,6 @@ namespace NCC.Services.Contract
     public interface IPersonService
     {
         IEnumerable<Person> GetPersons();
+        string GetStatus();
     }
 }

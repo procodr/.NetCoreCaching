@@ -8,10 +8,10 @@ using System.Text;
 
 namespace NCC.Infrustructure.Data.Repository
 {
-    public class CachedPersonRepository : IPersonRepository
+    public class PersonRepository : IPersonRepository
     {
-        public readonly DataContext _context;
-        public CachedPersonRepository(DataContext context)
+        private readonly DataContext _context;
+        public PersonRepository(DataContext context)
         {
             _context = context;
         }
@@ -30,6 +30,11 @@ namespace NCC.Infrustructure.Data.Repository
         public List<Person> GetAll()
         {
             return _context.Persons.ToList();
+        }
+
+        public bool isCached()
+        {
+            return false;
         }
     }
 }

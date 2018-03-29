@@ -19,5 +19,17 @@ namespace NCC.Services.Application
         {
             return _personRepository.GetAll();
         }
+
+        public string GetStatus()
+        {
+            if (_personRepository.isCached())
+            {
+                return "Using Cached Repository";
+            }
+            else
+            {
+                return "Using Real Repository";
+            }
+        }
     }
 }
