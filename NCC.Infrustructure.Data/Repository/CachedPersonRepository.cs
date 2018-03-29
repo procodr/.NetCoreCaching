@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NCC.Infrustructure.Data.Repositories
+namespace NCC.Infrustructure.Data.Repository
 {
     public class CachedPersonRepository : IPersonRepository
     {
