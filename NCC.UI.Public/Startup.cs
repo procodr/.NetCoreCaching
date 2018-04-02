@@ -11,6 +11,7 @@ using NCC.Infrustructure.Data.Context;
 using NCC.Infrustructure.Data.Repository;
 using NCC.Services.Application;
 using NCC.Services.Contract;
+using System;
 
 namespace NCC.UI.Public
 {
@@ -24,21 +25,41 @@ namespace NCC.UI.Public
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddMemoryCache();
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+            });
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
                     );
-            services.AddTransient<ICacheAdapter, InMemoryCacheAdapter>();
+            //services.AddTransient<ICacheAdapter, InMemoryCacheAdapter>();
+            services.AddTransient<ICacheAdapter, DistributedCacheAdapter>();
+            //services.AddTransient<ICacheAdapter>(service =>
+            //{
+            //    switch (_configuration["CacheMode"])
+            //    {
+            //        case "redis":
+            //        //case "sql-dist": TODO: To be implemented
+            //            return service.GetService<DistributedCacheAdapter>();
+            //        case "in-memory":
+            //            return service.GetService<InMemoryCacheAdapter>();
+            //        default:
+            //            throw new Exception();
+            //    }
+            //});
             services.AddScoped<CachedPersonRepository, CachedPersonRepository>();
             services.AddScoped<PersonRepository, PersonRepository>();
             services.AddScoped<IPersonRepository>(service =>
             {
-                if (bool.Parse(_configuration["UseCache"]))
+                switch (_configuration["CacheMode"])
                 {
-                    return service.GetService<CachedPersonRepository>();
-                }
-                else
-                {
-                    return service.GetService<PersonRepository>();
+                    case "redis":
+                    //case "sql-dist": TODO: To be implemented
+                    case "in-memory":
+                        return service.GetService<CachedPersonRepository>();
+                    default:
+                        return service.GetService<PersonRepository>();
                 }
             });
             services.AddTransient<IPersonService, PersonService>();
